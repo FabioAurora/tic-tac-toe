@@ -1,0 +1,51 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --mark-font: 'Merienda One', cursive;
+}
+
+body {
+  font-family: var(--mark-font);
+  background-color: #64748b;
+  color: #334155;
+}
+
+/* Utilities */
+.border-left {
+  border-left: .3rem solid #0f172a;
+}
+.border-top {
+  border-top: .3rem solid #0f172a;
+}
+
+.gameboard__container {
+  display: grid;
+  place-items: center;
+  min-height: 80vh;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 300px;
+  height: 300px;
+}
+
+.gameboard__tiles {
+  display: grid;
+  place-items: center;
+  font-size: 3rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+
+
+
+

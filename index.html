@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tic Tac Toe - @fabioauroradev</title>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merienda+One&display=swap" rel="stylesheet">
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css">
 
   <script src="assets/JS/app.js" defer></script>
 </head>
+
 <body>
-  
+  <section class="gameboard__container">
+    <div class="players__container">
+      <p>Player1</p>
+      <p>Player2</p>
+    </div>
+    <div class="gameboard">
+      <div class="gameboard__tiles" data-index="0"></div>
+      <div class="gameboard__tiles border-left" data-index="1"></div>
+      <div class="gameboard__tiles border-left" data-index="2"></div>
+      <div class="gameboard__tiles border-top" data-index="3"></div>
+      <div class="gameboard__tiles border-top border-left" data-index="4"></div>
+      <div class="gameboard__tiles border-top border-left" data-index="5"></div>
+      <div class="gameboard__tiles border-top" data-index="6"></div>
+      <div class="gameboard__tiles border-top border-left" data-index="7"></div>
+      <div class="gameboard__tiles border-top border-left" data-index="8"></div>
+    </div>
+  </section>
+  <div class="gameOver"></div>
 </body>
+
 </html>
