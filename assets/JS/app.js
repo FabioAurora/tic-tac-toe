@@ -25,8 +25,10 @@ const PlayerFactory = (name, mark) => {
 const Game = (() => {
   const player1 = PlayerFactory('fabio', "X");
   const player2 = PlayerFactory('zoe', "O");
-  let currentPlayer, gameOver;
+  let currentPlayer, currentPlayerName, gameOver;
   const tiles = document.querySelectorAll('.gameboard__tiles');
+  const _board = Gameboard.getBoard();
+  const _boardUpdate = Gameboard.updateBoard();
 
 
   const winningCombinations = [
@@ -43,6 +45,7 @@ const Game = (() => {
   const startNewGame = () => {
     Gameboard.resetBoard();
     currentPlayer = player1.mark;
+    currentPlayerName = player1.name
     gameOver = false;
     render();
   };
@@ -62,18 +65,24 @@ const Game = (() => {
     currentPlayer = currentPlayer === player1.mark ? player2.mark : player1.mark;
   };
 
+  const checkWinnerName = () => {
+    currentPlayerName = currentPlayerName === player1.name ? player2.name : player1.name;
+  }
+  
+
   const handleMove = event => {
     const index = event.target.getAttribute("data-index");
-    if (Gameboard.getBoard()[index] === "" && !gameOver) {
+    if (_board[index] === "" && !gameOver) {
       Gameboard.updateBoard(index, currentPlayer);
-      if (checkWin(Gameboard.getBoard(), currentPlayer)) {
+      if (checkWin(_board, currentPlayer)) {
         gameOver = true;
-        render(`Congratulations ${currentPlayer}, you won!`);
+        render(`Congratulations ${currentPlayerName}, you won!`);
       } else if (checkTie(Gameboard.getBoard())) {
         gameOver = true;
         render("It's a tie!");
       } else {
         switchPlayer();
+        checkWinnerName();
         render();
       }
     }
