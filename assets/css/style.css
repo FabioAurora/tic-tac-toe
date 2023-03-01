@@ -6,26 +6,41 @@
 
 :root {
   --mark-font: 'Merienda One', cursive;
+  --mark-color: #334155;
+  --bg-color: #64748b;
+  --border-clr: #0f172a;
 }
 
 body {
   font-family: var(--mark-font);
-  background-color: #64748b;
-  color: #334155;
+  background-color: var(--bg-color);
 }
 
-/* Utilities */
-.border-left {
-  border-left: .3rem solid #0f172a;
+button {
+  cursor: pointer;
 }
+
+.border-left {
+  border-left: .3rem solid var(--border-clr);
+
+}
+
 .border-top {
-  border-top: .3rem solid #0f172a;
+  border-top: .3rem solid var(--border-clr);
+
+}
+
+/* || Header */
+.header {
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid;
 }
 
 .gameboard__container {
   display: grid;
   place-items: center;
-  min-height: 80vh;
+
 }
 
 .gameboard {
@@ -34,6 +49,52 @@ body {
   grid-template-rows: repeat(3, 1fr);
   width: 300px;
   height: 300px;
+  color: var(--mark-color);
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.start__game-ctn {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: var(--bg-color);
+  width: 100%;
+  height: calc(100% - 6.9rem);
+  z-index: 10;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input__group {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 2rem;
+  width: 200px;
+}
+
+.input__group label {
+  padding-bottom: .2rem;
+}
+
+.input__group input {
+  padding: .4rem;
+  border-radius: 5px;
+  border: none;
+}
+
+.game__button {
+  font-size: 1.3rem;
+  padding: .8rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 1rem;
 }
 
 .gameboard__tiles {
@@ -44,8 +105,53 @@ body {
   cursor: pointer;
 }
 
+/* Players container */
+.player__score-ctn {
+  display: flex;
+  justify-content: space-around;
+  width: min(100%, 400px);
+  padding: 1rem 3rem;
+}
+
+.player-wrap {
+  text-align: center;
+  margin-bottom: 2rem;
+}
 
 
 
+.player-score {
+  font-size: 1.7rem;
+}
 
+#restart-btn {
+  z-index: 2;
+}
 
+.roundOver,
+.gameOver {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.4rem;
+  padding-top: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 6.9rem);
+  z-index: 1;
+
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.gameOver {
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+  z-index: 9;
+}

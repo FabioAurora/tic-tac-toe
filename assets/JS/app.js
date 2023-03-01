@@ -23,14 +23,33 @@ const PlayerFactory = (name, mark) => {
 
 // Module pattern for game display
 const Game = (() => {
-  const player1 = PlayerFactory('fabio', "X");
-  const player2 = PlayerFactory('zoe', "O");
+  // DOM Cache
+  //players:
+  const player1Display = document.querySelector('#player1-name');
+  const player2Display = document.querySelector('#player2-name');
+  const playerX = document.querySelector('#playerX');
+  const playerO = document.querySelector('#playerO');
+  let playerXName;
+  let playerOName;
+  let player1;
+  let player2;
   let currentPlayer, currentPlayerName, gameOver;
+  // player score
+  const player1Score = document.querySelector('[data-score="1"]');
+  const player2Score = document.querySelector('[data-score="2"]');
+  let player1Count =0;
+  let player2Count = 0;
+  // other elements
+  const startGameModal = document.querySelector('.start__game-ctn');
+  const form = document.querySelector('.form');
   const tiles = document.querySelectorAll('.gameboard__tiles');
   const _board = Gameboard.getBoard();
-  const _boardUpdate = Gameboard.updateBoard();
-
-
+  const startGameBTN = document.querySelector('#start-game-btn');
+  const restartBtn = document.querySelector('#restart-btn');
+  const roundOver = document.querySelector('#roundOver');
+  const gameOverModal = document.querySelector('#gameOver');
+  const newGameBTN = document.querySelector('#newGame-btn')
+  const winner = document.querySelector('.winner');
   const winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -46,9 +65,26 @@ const Game = (() => {
     Gameboard.resetBoard();
     currentPlayer = player1.mark;
     currentPlayerName = player1.name
+    roundOver.style.display = 'none';
     gameOver = false;
     render();
+    submitForm()
   };
+
+  const restartGame = () => {
+    Gameboard.resetBoard();
+    currentPlayer = player1.mark;
+    currentPlayerName = player1.name
+    roundOver.style.display = 'none';
+    gameOverModal.style.display = 'none';
+    startGameModal.style.display = 'flex';
+    gameOver = false;
+    player1Count = 0;
+    player2Count = 0;
+    playerX.value = '';
+    playerO.value = '';
+    render();
+  }
 
 
   const checkWin = (board, mark) => {
@@ -68,6 +104,38 @@ const Game = (() => {
   const checkWinnerName = () => {
     currentPlayerName = currentPlayerName === player1.name ? player2.name : player1.name;
   }
+
+  const isGameOver = () => {
+    if ((player1Count === 5 && player2Count < player1Count) ||
+        (player2Count === 5 && player1Count < player2Count)) {
+          gameOver = true;
+          render(`Congratulations ${currentPlayerName}, you won this Game!`);
+          roundOver.style.display = 'none';
+          gameOverModal.style.display = 'flex';
+    }
+  }
+
+  const updatePlayers = () => {
+    player1Display.textContent = playerX.value;
+    player2Display.textContent = playerO.value;
+    player1Score.textContent = player1Count;
+    player2Score.textContent = player2Count;
+    playerXName = playerX.value;
+    playerOName = playerO.value;
+    isGameOver();
+  }
+
+  const submitForm = (event) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+    updatePlayers();
+    player1 = PlayerFactory(playerXName, "X"); // move player1 creation here
+    player2 = PlayerFactory(playerOName, "O");
+    restartGame();
+    render();
+    startGameModal.style.display = 'none';
+    })
+  }
   
 
   const handleMove = event => {
@@ -75,12 +143,19 @@ const Game = (() => {
     if (_board[index] === "" && !gameOver) {
       Gameboard.updateBoard(index, currentPlayer);
       if (checkWin(_board, currentPlayer)) {
-        gameOver = true;
-        render(`Congratulations ${currentPlayerName}, you won!`);
+        roundOver.style.display = 'flex';
+        render(`Congratulations ${currentPlayerName}, you won this round!`);
+        if (currentPlayerName === player1.name) {
+          player1Count++
+          updatePlayers();
+        }else {
+          player2Count++
+          updatePlayers();
+        }
       } else if (checkTie(Gameboard.getBoard())) {
-        gameOver = true;
+        roundOver.style.display = 'flex';
         render("It's a tie!");
-      } else {
+      }else {
         switchPlayer();
         checkWinnerName();
         render();
@@ -90,18 +165,19 @@ const Game = (() => {
 
   const render = (status = "") => {
     tiles.forEach((tile, index) => {
-      tile.textContent = Gameboard.getBoard()[index];
+      tile.textContent = _board[index];
     });
     if (status) {
-      console.log(status); // or display it somewhere else on the screen
+      console.log(status)
+      winner.textContent = status; // display message on screen
     }
     tiles.forEach(tile => {
       tile.addEventListener('click', handleMove);
     });
+
   }
+  restartBtn.addEventListener('click', startNewGame)
+  newGameBTN.addEventListener('click', restartGame);
+  startGameBTN.addEventListener('click', submitForm)
 
-  return { startNewGame }
 })();
-
-
-Game.startNewGame();

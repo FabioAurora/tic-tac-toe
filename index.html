@@ -19,12 +19,25 @@
 </head>
 
 <body>
+  <header class="header">
+    <h1>Tic Tac Toe</h1>
+  </header>
+
   <section class="gameboard__container">
-    <div class="players__container">
-      <p>Player1</p>
-      <p>Player2</p>
+    <!--  Player score -->
+    <div class="player__score-ctn">
+      <div class="player-wrap">
+        <p id="player1-name" class="player-name">Player X</p>
+        <span data-score="1" class="player-score">0</span>
+      </div>
+      <div class="player-wrap">
+        <p id="player2-name" class="player-name">Player O</p>
+        <span data-score="2" class="player-score">0</span>
+      </div>
     </div>
+    <!-- Tic Tac Toe gameboard -->
     <div class="gameboard">
+      <!-- creating 9 tiles for the game -->
       <div class="gameboard__tiles" data-index="0"></div>
       <div class="gameboard__tiles border-left" data-index="1"></div>
       <div class="gameboard__tiles border-left" data-index="2"></div>
@@ -34,9 +47,36 @@
       <div class="gameboard__tiles border-top" data-index="6"></div>
       <div class="gameboard__tiles border-top border-left" data-index="7"></div>
       <div class="gameboard__tiles border-top border-left" data-index="8"></div>
+
     </div>
+
+    <button id="restart-btn" class="game__button">Restart</button>
+    
+    <div class="start__game-ctn">
+      <form action="#" method="get" class="form">
+        <div class="input__group">
+          <label for="playerX">PlayerX Name</label>
+          <input type="text" id="playerX" required>
+        </div>
+        <div class="input__group">
+          <label for="playerO">PlayerO Name</label>
+          <input type="text" id="playerO" required>
+        </div>
+
+        <button id="start-game-btn" class="game__button">Play</button>
+      </form>
+    </div>
+
+    <div class="roundOver" id="roundOver">
+      <h2 class="winner"></h2>
+    </div>
+
+    <div class="gameOver" id="gameOver">
+      <h2 class="winner"></h2>
+      <button id="newGame-btn" class="game__button">New Game</button>
+    </div>
+
   </section>
-  <div class="gameOver"></div>
 </body>
 
 </html>
