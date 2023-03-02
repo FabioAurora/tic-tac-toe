@@ -44,12 +44,14 @@ const Game = (() => {
   const form = document.querySelector('.form');
   const tiles = document.querySelectorAll('.gameboard__tiles');
   const _board = Gameboard.getBoard();
+  const roundOver = document.querySelector('#roundOver');
+  const winner = document.querySelector('.winner');
+  // Buttons
   const startGameBTN = document.querySelector('#start-game-btn');
   const restartBtn = document.querySelector('#restart-btn');
-  const roundOver = document.querySelector('#roundOver');
-  const gameOverModal = document.querySelector('#gameOver');
   const newGameBTN = document.querySelector('#newGame-btn')
-  const winner = document.querySelector('.winner');
+
+
   const winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -61,29 +63,30 @@ const Game = (() => {
     [2, 4, 6],
   ];
 
-  const startNewGame = () => {
+  const restartGame = () => {
     Gameboard.resetBoard();
     currentPlayer = player1.mark;
     currentPlayerName = player1.name
     roundOver.style.display = 'none';
     gameOver = false;
     render();
-    submitForm()
+    
   };
 
-  const restartGame = () => {
+  const startNewGame = () => {
     Gameboard.resetBoard();
     currentPlayer = player1.mark;
     currentPlayerName = player1.name
     roundOver.style.display = 'none';
-    gameOverModal.style.display = 'none';
     startGameModal.style.display = 'flex';
+    newGameBTN.style.display = 'none';
     gameOver = false;
     player1Count = 0;
     player2Count = 0;
     playerX.value = '';
     playerO.value = '';
     render();
+    submitForm()
   }
 
 
@@ -109,10 +112,10 @@ const Game = (() => {
     if ((player1Count === 5 && player2Count < player1Count) ||
         (player2Count === 5 && player1Count < player2Count)) {
           gameOver = true;
-          render(`Congratulations ${currentPlayerName}, you won this Game!`);
-          roundOver.style.display = 'none';
-          gameOverModal.style.display = 'flex';
-    }
+          render(`${currentPlayerName[0].toUpperCase() + currentPlayerName.substring(1)}, won the game!`);
+          restartBtn.style.display = 'none';
+          newGameBTN.style.display = 'block'
+    } else return
   }
 
   const updatePlayers = () => {
@@ -125,7 +128,7 @@ const Game = (() => {
     isGameOver();
   }
 
-  const submitForm = (event) => {
+  const submitForm = () => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
     updatePlayers();
@@ -134,6 +137,7 @@ const Game = (() => {
     restartGame();
     render();
     startGameModal.style.display = 'none';
+    restartBtn.style.display = 'block';
     })
   }
   
@@ -144,7 +148,7 @@ const Game = (() => {
       Gameboard.updateBoard(index, currentPlayer);
       if (checkWin(_board, currentPlayer)) {
         roundOver.style.display = 'flex';
-        render(`Congratulations ${currentPlayerName}, you won this round!`);
+        render(`Congratulations ${currentPlayerName[0].toUpperCase() + currentPlayerName.substring(1)}, you won this round!`);
         if (currentPlayerName === player1.name) {
           player1Count++
           updatePlayers();
@@ -168,7 +172,6 @@ const Game = (() => {
       tile.textContent = _board[index];
     });
     if (status) {
-      console.log(status)
       winner.textContent = status; // display message on screen
     }
     tiles.forEach(tile => {
@@ -176,8 +179,8 @@ const Game = (() => {
     });
 
   }
-  restartBtn.addEventListener('click', startNewGame)
-  newGameBTN.addEventListener('click', restartGame);
+  restartBtn.addEventListener('click', restartGame)
+  newGameBTN.addEventListener('click', startNewGame);
   startGameBTN.addEventListener('click', submitForm)
 
 })();

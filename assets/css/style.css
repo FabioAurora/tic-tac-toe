@@ -6,14 +6,18 @@
 
 :root {
   --mark-font: 'Merienda One', cursive;
-  --mark-color: #334155;
-  --bg-color: #64748b;
-  --border-clr: #0f172a;
+  --mark-color: rgb(51, 65, 85);
+  --primary-light: rgb(240, 248, 255);
+  --border-clr: rgb(89, 66, 157);
+  --accent-purple: rgb(89, 66, 157);
+  --accent-blue: #7a38ff;
+  --accent-grey: rgb(131, 125, 125);
 }
 
 body {
   font-family: var(--mark-font);
-  background-color: var(--bg-color);
+  background-color: var(--primary-light);
+  color: var(--accent-purple);
 }
 
 button {
@@ -34,7 +38,12 @@ button {
 .header {
   padding: 2rem;
   text-align: center;
-  border-bottom: 1px solid;
+  background-color: var(--accent-purple);
+  color: var(--primary-light);
+}
+
+[data-score] {
+  color: var(--accent-grey);
 }
 
 .gameboard__container {
@@ -61,7 +70,7 @@ button {
   position: absolute;
   bottom: 0;
   left: 0;
-  background-color: var(--bg-color);
+  background-color: var(--primary-light);
   width: 100%;
   height: calc(100% - 6.9rem);
   z-index: 10;
@@ -70,6 +79,7 @@ button {
 .form {
   display: flex;
   flex-direction: column;
+  margin-top: 2rem;
 }
 
 .input__group {
@@ -80,7 +90,7 @@ button {
 }
 
 .input__group label {
-  padding-bottom: .2rem;
+  padding-bottom: .4rem;
 }
 
 .input__group input {
@@ -89,12 +99,28 @@ button {
   border: none;
 }
 
+/* Buttons */
 .game__button {
-  font-size: 1.3rem;
-  padding: .8rem 1.2rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+  padding: .8rem 4rem;
   border: none;
   border-radius: 5px;
   margin-top: 1rem;
+  z-index: 9;
+  background-color: var(--accent-blue);
+  color: var(--primary-light);
+}
+.game__button:hover {
+  background-color: var(--accent-purple);
+}
+
+#restart-btn {
+  display: none;
+}
+
+#newGame-btn {
+  display: none;
 }
 
 .gameboard__tiles {
@@ -109,13 +135,14 @@ button {
 .player__score-ctn {
   display: flex;
   justify-content: space-around;
-  width: min(100%, 400px);
+  width: min(100%, 700px);
   padding: 1rem 3rem;
 }
 
 .player-wrap {
   text-align: center;
   margin-bottom: 2rem;
+  text-transform: capitalize;
 }
 
 
@@ -124,17 +151,13 @@ button {
   font-size: 1.7rem;
 }
 
-#restart-btn {
-  z-index: 2;
-}
-
 .roundOver,
 .gameOver {
   display: none;
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   padding-top: 1rem;
   position: absolute;
   bottom: 0;
@@ -143,15 +166,49 @@ button {
   height: calc(100% - 6.9rem);
   z-index: 1;
 
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgb(255 255 255 / .85);
+  /* backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(4px); */
 }
 
 .gameOver {
   display: none;
   flex-direction: column;
   gap: 2rem;
-  z-index: 9;
+  z-index: 2;
+}
+
+@media (min-width: 43rem) {
+  .header {
+    margin-bottom: 2rem;
+  }
+  h1 {
+    font-size: 3rem;
+  }
+
+  .gameboard {
+    width: 600px;
+    height: 600px;
+    color: var(--mark-color);
+    position: relative;
+    margin-bottom: 4rem;
+  }
+
+  .gameboard__tiles {
+    font-size: 5rem;
+  }
+
+  .player-name {
+    font-size: 1.4rem;
+  }
+
+  .player-score {
+    font-size: 2.7rem;
+  }
+
+  .roundOver,
+.gameOver {
+  font-size: 2.1rem;
+ 
+}
 }

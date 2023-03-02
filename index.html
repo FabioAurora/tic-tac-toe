@@ -51,16 +51,17 @@
     </div>
 
     <button id="restart-btn" class="game__button">Restart</button>
+    <button id="newGame-btn" class="game__button">New Game</button>
     
     <div class="start__game-ctn">
       <form action="#" method="get" class="form">
         <div class="input__group">
-          <label for="playerX">PlayerX Name</label>
-          <input type="text" id="playerX" required>
+          <label for="playerX">Player-1 ' X '</label>
+          <input type="text" id="playerX" placeholder="Name..." required>
         </div>
         <div class="input__group">
-          <label for="playerO">PlayerO Name</label>
-          <input type="text" id="playerO" required>
+          <label for="playerO">Player-2 ' O '</label>
+          <input type="text" id="playerO" placeholder="Name..." required>
         </div>
 
         <button id="start-game-btn" class="game__button">Play</button>
@@ -69,11 +70,6 @@
 
     <div class="roundOver" id="roundOver">
       <h2 class="winner"></h2>
-    </div>
-
-    <div class="gameOver" id="gameOver">
-      <h2 class="winner"></h2>
-      <button id="newGame-btn" class="game__button">New Game</button>
     </div>
 
   </section>
