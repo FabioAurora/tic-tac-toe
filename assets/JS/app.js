@@ -15,11 +15,32 @@ const Gameboard = (() => {
 
   return { getBoard, resetBoard, updateBoard, }
 })();
+/* ********************************************* */
 
 // Factory function for players object
 const PlayerFactory = (name, mark) => {
   return { name, mark };
 };
+/* ********************************************* */
+
+// Sounds
+const audioModule = (() => {
+  const _audio = new Audio('assets/audio/click.wav');
+  const _victory = new Audio('assets/audio/victory.mp3');
+
+  const victory = () => {
+    _victory.currentTime = 0;
+    _victory.play();
+  }
+
+  const getAudio = () => {
+    _audio.currentTime = 0;
+    _audio.play();
+  };
+
+  return { getAudio, victory };
+})()
+/* ************************************** */
 
 // Module pattern for game display
 const Game = (() => {
@@ -37,7 +58,7 @@ const Game = (() => {
   // player score
   const player1Score = document.querySelector('[data-score="1"]');
   const player2Score = document.querySelector('[data-score="2"]');
-  let player1Count =0;
+  let player1Count = 0;
   let player2Count = 0;
   // other elements
   const startGameModal = document.querySelector('.start__game-ctn');
@@ -70,7 +91,7 @@ const Game = (() => {
     roundOver.style.display = 'none';
     gameOver = false;
     render();
-    
+
   };
 
   const startNewGame = () => {
@@ -110,11 +131,11 @@ const Game = (() => {
 
   const isGameOver = () => {
     if ((player1Count === 5 && player2Count < player1Count) ||
-        (player2Count === 5 && player1Count < player2Count)) {
-          gameOver = true;
-          render(`${currentPlayerName[0].toUpperCase() + currentPlayerName.substring(1)}, won the game!`);
-          restartBtn.style.display = 'none';
-          newGameBTN.style.display = 'block'
+      (player2Count === 5 && player1Count < player2Count)) {
+      gameOver = true;
+      render(`${currentPlayerName[0].toUpperCase() + currentPlayerName.substring(1)}, won the game!`);
+      restartBtn.style.display = 'none';
+      newGameBTN.style.display = 'block'
     } else return
   }
 
@@ -131,35 +152,37 @@ const Game = (() => {
   const submitForm = () => {
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-    updatePlayers();
-    player1 = PlayerFactory(playerXName, "X"); // move player1 creation here
-    player2 = PlayerFactory(playerOName, "O");
-    restartGame();
-    render();
-    startGameModal.style.display = 'none';
-    restartBtn.style.display = 'block';
+      updatePlayers();
+      player1 = PlayerFactory(playerXName, "X"); // move player1 creation here
+      player2 = PlayerFactory(playerOName, "O");
+      restartGame();
+      render();
+      startGameModal.style.display = 'none';
+      restartBtn.style.display = 'block';
     })
   }
-  
+
 
   const handleMove = event => {
+    audioModule.getAudio();
     const index = event.target.getAttribute("data-index");
     if (_board[index] === "" && !gameOver) {
       Gameboard.updateBoard(index, currentPlayer);
       if (checkWin(_board, currentPlayer)) {
         roundOver.style.display = 'flex';
         render(`Congratulations ${currentPlayerName[0].toUpperCase() + currentPlayerName.substring(1)}, you won this round!`);
+        audioModule.victory();
         if (currentPlayerName === player1.name) {
           player1Count++
           updatePlayers();
-        }else {
+        } else {
           player2Count++
           updatePlayers();
         }
       } else if (checkTie(Gameboard.getBoard())) {
         roundOver.style.display = 'flex';
         render("It's a tie!");
-      }else {
+      } else {
         switchPlayer();
         checkWinnerName();
         render();
